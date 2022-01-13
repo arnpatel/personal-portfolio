@@ -1,0 +1,106 @@
+<style>
+  input {
+  padding: 17px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	color: #2C3E50;
+	font-size: 13px;
+  }
+  img {
+  display: block;
+  margin: auto;
+}
+.alert {
+  
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+</style>
+
+
+<div style="text-align: center; border: 1px solid  white; margin: 0 auto; width: 43%; padding: 20px; border-radius: 10px; box-shadow: 0 0 5px  #575957;">
+
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdtcuYZAAAAAIwojPSAgoVHOH8ePgJahEXva5rP&onload=onLoad&render=explicit"></script>
+
+<p><b>To continue, log in to AP Technologies.</b></p> <br>
+
+
+ 
+  <div class="signup-box">
+    <div class="oauth">
+      <div class="google" onclick="location.href='/auth/google';"><img src="/images/google.png" style="max-width: 15px;"></div>
+      <div class="github" onclick="location.href='/auth/github';"><img src="/images/github.svg" style="max-width: 20px;"></div>
+    </div>
+  </div>
+
+
+
+<p class="separator"></p>
+
+
+
+      <% include ./partials/messages %>
+
+      <div style="text-align: center;">
+      
+            <form action="/auth/login?continue=<%=redirectUrl%>" method="POST">
+              <input id="reCaptcha" type="hidden" name="g-recaptcha-response">
+              <div class="form-group">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-control"
+                  placeholder="Email address (required)"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control"
+                  placeholder="Password (required)"
+                /><br>
+                <a href="/auth/forgot" style="padding-left: 200px; font-size: 80%;">Forgot password?</a>
+              </div>
+              <input type="submit" style="width:100%; border-radius: 25px; padding: 12px;" onclick="change()" type="button" value="Sign in" id="myButton1"></input>
+            </form><br>
+
+            
+
+      <p>Don't have an account? <br>
+        <input onclick="location.href = '/auth/register';" type="submit" value="Create Account" style="width:100%; border-radius: 25px; background-color: white; color: black; border: 1.7px solid black; padding: 10px;"/>
+
+  </div>
+</div>
+
+
+
+
+<script>
+  function onLoad()  {
+      grecaptcha.ready(function() {
+          grecaptcha.execute(`6LdtcuYZAAAAAIwojPSAgoVHOH8ePgJahEXva5rP`, {action: 'submit'}).then(function(token) {
+              let t = document.querySelector('#reCaptcha')
+              t.value = token
+          });
+      }); 
+  }
+</script>
+
+
+
+<script>
+  function change()
+{
+    var elem = document.getElementById("myButton1");
+    if (elem.value=="Sign in") {
+      elem.value = "Processing...";
+        elem.style.backgroundColor = "#687a82";
+    }
+}
+</script>

@@ -1,0 +1,150 @@
+<style>
+  input {
+    padding: 17px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	color: #2C3E50;
+	font-size: 13px;
+  }
+  img {
+  display: block;
+  margin: auto;
+}
+
+.message1 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.hide{opacity:0; display: none; height: 0; padding: 0;}
+.centered {
+  font-size: 90%;
+  color: rgb(189, 17, 17);
+  text-align: left;
+  padding-left: 20px;
+}
+.success1 {
+  color: green;
+}
+
+.para{
+  line-height: 5px;
+}
+
+</style>
+
+<div style="text-align: center; border: 1px solid  white; margin: 0 auto; width: 43%; padding: 20px; border-radius: 10px; box-shadow: 0 0 5px #575957;">
+
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdtcuYZAAAAAIwojPSAgoVHOH8ePgJahEXva5rP&onload=onLoad&render=explicit"></script>
+
+  
+
+  <p><b>Sign up for free to get started.</b></p><br>
+
+
+  
+  <div class="signup-box">
+    <div class="oauth">
+      <div class="google" onclick="location.href='/auth/google';"><img src="/images/google.png" style="max-width: 15px;"></div>
+      <div class="github" onclick="location.href='/auth/github';"><img src="/images/github.svg" style="max-width: 20px;"></div>
+    </div>
+  </div>
+
+
+<p class="separator"></p>
+
+    <div class="message1">
+        <% include ./partials/messages %>
+      </div>
+
+
+      <form action="/auth/register" method="POST">
+        <input id="reCaptcha" type="hidden" name="g-recaptcha-response">
+        <div class="form-group">
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-control"
+            placeholder="Full name (required)"
+            value="<%= typeof name != 'undefined' ? name : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="Email address (required)"
+            value="<%= typeof email != 'undefined' ? email : '' %>"
+          />
+        </div>
+        <div class="alignc">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class=""
+            placeholder="Create a password (required)"
+          />
+        </div>
+        <div class="centered" style="width:400px">
+          <p style="color: #234d6b">Realtime password guidelines:</p>
+            <p class="lowercase-char para">At least one lowercase character</p>
+            <p class="uppercase-char para">At least one uppercase character</p>
+            <p class="number-char para">At least one number</p>
+            <p class="special-char para">At least one special character</p>
+            <p class="8-char para">At least 8 characters</p>
+            <p class="success1 hide para">The password works, go take over the world.</p>
+          </div>
+        <div class="form-group">
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            class="form-control"
+            placeholder="Confirm password (required)"
+          />
+        </div>
+        <p style="font-size: 80%; text-align: left;">By clicking Create Account, you acknowledge you have read <br>and agreed to our <a href="/legal">Legal</a> policies.</p>
+        <input type="submit" style="width:100%; border-radius: 25px; padding: 12px;" value="Create account" id="myButton1" onclick="change()"></input>
+      </form>
+
+      <br>
+      <p>Already have an account? <br>
+        <input onclick="location.href = '/auth/login';" type="submit" value="Sign in" style="width:100%; border-radius: 25px; background-color: white; color: black; border: 1.7px solid black; padding: 10px;"/>
+
+
+      </div>
+
+
+
+      <script>
+        function onLoad()  {
+            grecaptcha.ready(function() {
+                grecaptcha.execute(`6LdtcuYZAAAAAIwojPSAgoVHOH8ePgJahEXva5rP`, {action: 'submit'}).then(function(token) {
+                    let t = document.querySelector('#reCaptcha')
+                    t.value = token
+                });
+            }); 
+        }
+      </script>
+
+
+<script>
+  function change()
+{
+    var elem = document.getElementById("myButton1");
+    if (elem.value=="Create account") {
+
+       elem.value = "Processing...";
+       elem.style.backgroundColor = "#687a82";
+    }
+}
+</script>
+
+
+<script src='https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js'></script><script src="/js/password-validation.js"></script>

@@ -1,0 +1,67 @@
+<style>
+  #check {
+    display:none;
+}
+#check:not(:checked) ~ .sidebar-follow-button
+{
+    display:none;
+}
+#check:checked ~ .sidebar-follow-button
+{
+    display:block;
+}
+</style>
+
+<% include ./partials/messages %>
+
+<div id="sidebar">
+  <div class="label"> <i>Connect with me on the Internet </i> </div>
+  <br>
+  <a class="try" href="https://github.com/arnpatel"><i class="fab fa-github"></i> Github</a>
+  <div class="separator">&mdash; or &mdash;</div>
+  <a class="try" href="https://twitter.com/arnpatel1"><i class="fab fa-twitter"></i> Twitter</a>
+  <br>  
+  <div class="seperator">&mdash; &mdash;</div>
+  
+  <a href="/public_key.txt">My PGP Public Key</a> <br>
+
+  <% if(!user){ %>
+
+    <a href="/user/donation">Make a donation</a><br>
+
+    <a href="/auth/login?continue=/&entry=SecureLogin&api=AP-Technologies">View my email</a>
+    
+
+    
+  <% } else{ %> 
+    <a href="/user/donation">Make a donation</a>
+    <div class="sidebar-follow">
+      <input type="checkbox" id="check" />
+      <label for="check">
+          <div class="sidebar-follow-icon">
+            <a style="cursor: pointer;">Click to see my email</a>
+          </div>
+      </label>
+      <div class="sidebar-follow-button">
+            <form action="/spam-prevention" method="POST">
+              What is <%-xNumber%> + <%-yNumber%> ?
+              <input type="hidden" name="xNumber" id="xNumber" value="<%-xNumber%>">
+              <input type="hidden" name="yNumber" id="yNumber" value="<%-yNumber%>">
+              <input type="text" name="xy" id="xy" style="height: 5px; border-radius: 5px;" placeholder="Type and press enter" autocomplete="off">
+            </form>
+      </div>
+    </div>
+
+
+ <% } %>
+
+  
+</div>
+
+<div id="left-column">
+<p>This is my personal website, where you can find information about my ongoing academics, and my view on several science topics. Since I've started college, I had found leveraging the adversities to be my prime goal. I am currently a junior studying Computer Engineering at Drexel University. This website also serves as an online platform for me to try and implement several software developement and integration projects.</p>
+<img src="/images/circuit.png" style="max-width: 475px;display: block;
+margin-left: auto;
+margin-right: auto;">
+<br>
+</div>

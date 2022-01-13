@@ -1,0 +1,280 @@
+<h1 style="text-align: center;">Contact Me</h1>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  .box {
+  box-shadow: 0 0px 2px rgba(0,0,0,0.5);
+  border-radius: 10px 10px;
+  padding: 40px;
+  }
+  
+  /* Create two equal columns that floats next to each other */
+  .column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  input, textarea {
+  padding: 17px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	color: #2C3E50;
+	font-size: 13px;
+  }
+
+
+  #container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px 15px 0 0;
+}
+
+#left {
+  width: calc(65% - 15px);
+}
+
+#right {
+  width: calc(35% - 15px);
+}
+
+.success {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #6f9e78;
+  color: white;
+}
+
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: #d9d052;
+}
+
+  </style>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6LdtcuYZAAAAAIwojPSAgoVHOH8ePgJahEXva5rP&onload=onLoad&render=explicit"></script>
+
+<p><a href="/contact/track-submission">Track your submission</a></p>
+
+<p>Wanna collaborate in a software development project? Fill the form below to send me an email, and I'll get back to you shortly.</p>
+
+
+
+<% include ./partials/messages %>
+
+
+<% if(typeof formSubmission != 'undefined') {  %>
+  <div style="font-size: 13px;" class="success">
+   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <%= firstName %>, we have received your message and would like to thank you for writing to us. Expect to receive a confirmation email at <%= req.body.email.toLowerCase() %> momentarily with the form summary. We will reply by email as soon as possible. 
+</div>
+<% } %>
+
+<div id="container">
+
+  <div id="left" class="box">
+
+
+<% if(typeof alert != 'undefined') {  %>
+
+  <div class="row">
+    <form method="POST" action="/contact">
+      <input id="reCaptcha" type="hidden" name="g-recaptcha-response">
+
+  
+      <%if (error1) { %>
+        <% if(error1.param === 'name'){ %>
+          <input type="text" name="name" placeholder="Full name *" value="<%- req.body.name %>">
+          <p class="error"><%=error1.msg%></p>
+       <% } else{ %>
+        <input type="text" id="name" name="name" placeholder="Full name *" value="<%- req.body.name %>">
+        <% } %>
+        <% } %>
+
+
+
+
+
+    <%if (error1) { %>
+      <% if(error1.param === 'email'){ %>
+        <input type="email"  name="email" placeholder="Email address *" value="<%= req.body.email.toLowerCase() %>">
+        <p class="error"><%=error1.msg%></p>
+     <% } else{ %>
+      <input type="email" id="email" name="email" placeholder="Email address *" value="<%= req.body.email.toLowerCase() %>">
+      <% } %>
+      <% } %>
+
+      <%if (error2) { %>
+        <% if(error2.param === 'email'){ %>
+          <p class="error"><%=error2.msg%></p>
+       <% } else{ %>
+        <% } %>
+        <% } %>
+
+
+
+    
+
+
+    <%if (error1) { %>
+      <% if(error1.param === 'subject'){ %>
+        <input type="text" id="subject" name="subject" placeholder="Subject *" value="<%- req.body.subject %>">
+        <p class="error"><%=error1.msg%></p>
+     <% } else{ %>
+      <input type="text" id="subject" name="subject" placeholder="Subject *" value="<%- req.body.subject %>">
+      <% } %>
+      <% } %>
+
+      <%if (error2) { %>
+        <% if(error2.param === 'subject'){ %>
+          <p class="error"><%=error2.msg%></p>
+       <% } else{ %>
+        <% } %>
+        <% } %>
+
+        <%if (error3) { %>
+          <% if(error3.param === 'subject'){ %>
+            <p class="error"><%=error3.msg%></p>
+         <% } else{ %>
+          <% } %>
+          <% } %>
+
+     
+
+
+
+    
+    
+    <%if (error1) { %>
+      <% if(error1.param === 'message'){ %>
+        <textarea id="message" name="message" placeholder="Message *" rows="8" style="resize: vertical; font-family:Arial, Helvetica, sans-serif;"><%- req.body.message %></textarea><br>
+        <p class="error"><%=error1.msg%></p>
+     <% } else{ %>
+      <textarea id="message" name="message" placeholder="Message *" rows="8" style="resize: vertical; font-family:Arial, Helvetica, sans-serif;"><%- req.body.message %></textarea><br>
+      <% } %>
+      <% } %>
+
+      <%if (error2) { %>
+        <% if(error2.param === 'message'){ %>
+          <p class="error"><%=error2.msg%></p>
+       <% } else{ %>
+        <% } %>
+        <% } %>
+
+        <%if (error3) { %>
+          <% if(error3.param === 'message'){ %>
+            <p class="error"><%=error3.msg%></p>
+         <% } else{ %>
+          <% } %>
+          <% } %>
+
+          <%if (error4) { %>
+            <% if(error4.param === 'message'){ %>
+              <p class="error"><%=error4.msg%></p>
+           <% } else{ %>
+            <% } %>
+            <% } %>
+
+            <input type="submit" value="Send" style="width: 100%; padding: 12px;" onclick="change()" id="myButton1">
+
+    </form>
+
+    </div>
+
+
+
+
+
+
+  <% } else {%>
+
+
+
+
+
+    
+
+
+
+    <form method="POST" action="/contact">
+      <input id="reCaptcha" type="hidden" name="g-recaptcha-response">
+    <input type="text" id="name" name="name" placeholder="Full name *">
+    <input type="email" id="email" name="email" placeholder="Email address *">
+    <input type="text" id="subject" name="subject" placeholder="Subject *" >
+    <textarea id="message" name="message" placeholder="Message *" rows="8" style="resize: vertical; font-family:Arial, Helvetica, sans-serif;" ></textarea><br>
+    <input type="submit" value="Send" style="width: 100%; padding: 12px;" onclick="change()" id="myButton1">
+  
+    </form>
+
+
+  <% } %>
+
+</div>
+
+    <div id="right">
+
+
+    </div>
+
+
+
+</div>
+
+
+  <script>
+    function onLoad()  {
+        grecaptcha.ready(function() {
+            grecaptcha.execute(`6LdtcuYZAAAAAIwojPSAgoVHOH8ePgJahEXva5rP`, {action: 'submit'}).then(function(token) {
+                // Find the hidden input element in the form I wanted validated
+                let t = document.querySelector('#reCaptcha')
+                // give it a value returned by ReCaptcha
+                t.value = token
+            });
+        }); 
+    }
+  </script>
+
+
+<style>
+  .error {
+    font-size: 12px;
+    margin-left: 11px;
+    margin-top: -7px;
+    color: #c4395c;
+  }
+</style>
+
+
+
+<script>
+  function change()
+{
+    var elem = document.getElementById("myButton1");
+    if (elem.value=="Send") elem.value = "Processing...";
+}
+</script>

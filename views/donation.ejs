@@ -1,0 +1,37 @@
+<h1 style="text-align: center;">Donate to Arth Patel</h1>
+
+<% include ./partials/messages %>
+
+
+<br>
+
+<div class="donation-tab">
+<div class="badge">
+	<div class="badge__header">
+		<div class="badge__profile-picture">
+			<img src="https://arthnpatel.com/images/arthpatel_2019.jpg" alt="" />
+		</div>
+	</div>
+	<div class="badge__name">
+		Arth Patel
+	</div>
+	<div class="badge__bio">
+		I currently study engineering at Bucks County Community College. Your donation would help fund my education, with a heart for missions and for serving others in the future.
+	</div>
+	<div class="badge__giving">
+
+		<% if(typeof user != "undefined"){ %>
+			<form action="/user/donation/create" method="POST">
+				<input type="number" name="amount" class="amount" placeholder="$ amount"/>
+				<input type="submit" value="Give" class="submit"/>
+			</form>
+			<% } else{ %>  
+			<form>
+				<a href="https://arthnpatel.com/auth/login?continue=/user/donation&entry=SecureLogin&api=AP-Technologies">Log in to continue</a>
+			</form>
+		 <% } %>
+
+		<div class="clearfix"></div>
+	</div>
+</div>
+</div>

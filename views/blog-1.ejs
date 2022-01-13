@@ -1,0 +1,122 @@
+<h1>Creating my own secure VPN using Pritunl.</h1>
+
+<p style="color:rgb(151, 148, 148);">Posted on August 1, 2020 by <a href="/about">arth</a>.</p>
+
+<p>In this day and age, VPN or Virtual Private Networks are awesome tools to help you protect your privacy. A VPN changes or masks your current IP address with other address where the VPN server is hosted. One of the good reasons to consider having your own VPN, rather than to go for online companies, is to have your data controlled on your own hands. Now, this becomes really true when you host the server at your home itself. However, if you are thinking of having a completely different IP based on some specific region, then getting a virtual machine is the best way to set up a VPN. Do note that companies giving you access to IP address when you get a virtual machine, might send you claims if you do access pirated content or something that is banned by law. That out of the way, if you still think you are enough of a tech geek to host your VPN, follow this tutorial along.</p>
+
+<p>Let's break things down into steps to make it easier. Below mentioned are 5 steps to achieve a personal VPN.</p>
+
+<b>Pre-requisite</b>
+
+<ol>
+
+<li><p> Get a virtual machine running <b>Ubuntu 18.04</b> to work along this tutorial. There are many options available for VM's like <a href="https://cloud.google.com" target="_blank">Google Cloud</a>, <a href="https://www.digitalocean.com" target="_blank">Digital Ocean</a>, <a href="https://www.linode.com" target="_blank">Linode</a> etc.. If you feel lost setting up a virtual machine with one of those providers, there are numerous guides available online. Seach on google for their installation references. That just will not be covered in this tutorial to keep things short.
+</p></li>
+
+<li><p>Ensure that ubuntu is up-to-date. Run the following command.</p>
+
+    <pre>
+    sudo apt-get update && sudo-apt upgrade
+</pre>
+</li>
+
+<li><p>If you have Apache/Nginx running on tcp ports 80 or 443, make sure to stop them before you proceed. Pritunl uses both your port 80/443.</p>
+
+    <pre>
+    # For Apache
+    sudo systemctl stop apache2 
+    # For Nginx
+    sudo systemctl stop nginx
+</pre>
+</li>
+</ol>  
+
+
+<b>Installation</b>
+
+<ol>
+<li><p>Install the Pritunl and MongoDB repositories.</p>
+
+    <pre>
+    sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list << EOF
+    deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse
+    EOF
+
+    sudo tee /etc/apt/sources.list.d/pritunl.list << EOF
+    deb https://repo.pritunl.com/stable/apt xenial main
+    EOF
+</pre>
+</li>
+
+<li><p>Add the public keys for the repositories. This step is done to ensure we get the correct repository.</p>
+
+    <pre>
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv E162F504A20CDF15827F718D4B7C549A058F8B6B
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+</pre>
+</li>
+
+<li><p>Now reload all the repositories.</p>
+
+   <pre>
+    sudo apt update
+   </pre>
+</li>
+
+<li><p>Install the required packages and start the pritunl server</p>
+
+    <pre>
+    sudo apt-get --assume-yes install apt-transport-https
+    sudo apt-get update
+    sudo apt-get --assume-yes install pritunl mongodb-org
+    sudo systemctl start pritunl mongod
+    sudo systemctl enable pritunl mongod
+</pre>
+</li>
+
+
+<li><p>Open the web browser on your compter and navigate to https://123.45.67.89:443, replacing 123.45.67.89 with your VM's IP address. You should see a screen with pre-filled local mongoDB string.</p>
+</li>
+
+<li> <p>Once on the page, you shall need your Pritunl Setup Key. This can be retreived by running this simple command: 
+<code>sudo pritunl setup-key</code>. Enter the key in the appropriate area and click on <b>save</b>.</p>
+</li>
+
+</ol>
+
+<b>Configuring Pritunl</b>
+
+<ol>
+<li><p> Next step is to Log in with the Pritunl information. In normal cases, you will need your default random generated password which you can retreive by running: <code> sudo pritunl default-password</code>. If not prompted to use the command, use the below mentioned credentials.</p>
+
+   <p> username: pritunl ,
+    password: pritunl</p>
+</li>
+
+<li> <p>Fill out all the information asked on the next screen and press save. The SMTP settings are not nescessary to move on and will not do anything unless you have a pritunl license purchased.</p>
+</li>
+
+<li> <p>On your Pritunl Dashboard, go to users and <b>create a new user</b> by adding your credentials.</p>
+</li>
+
+<li> <P>Go to the Servers tab and <b>add server</b>. Add a port that you have already enabled in the firewall settings for your virtual machine. Then, click on <b>Attach Organization</b> and attach to the server.</P>
+</li>
+
+</ol>
+
+<b>Connecting to server</b>
+
+<p>Now, you will have to connect to your server to mask your IP address. This can be done using any OpenVPN compatible client. You can use the free OpenVPN connect app for <a href="https://play.google.com/store/apps/details?id=net.openvpn.openvpn" target="_blank">android</a> or <a href="https://apps.apple.com/us/app/openvpn-connect/id590379981" target="_blank">iOS</a>. For Linux, there is a official client available for Ubuntu. Mac and Windows can use any OpenVPN client. This is the address for <a href="https://openvpn.net/" target="_blank">OpenVPN</a> website if you need more information on OpenVPN.
+    </p>
+
+<p>Now you need to get your keys. Next to your username on the dashboard, there will be a Online/Offline indicator. Next to that, there will be two buttons. There should be an option to download the TAR file with your login and required credentials.
+</p>
+
+<b>Useful Links</b>
+
+<ul>
+
+<li><a href="https://docs.pritunl.com/docs/installation" target="_blank">Pritunl Documentation</a></li>
+<li><a href="https://openvpn.net/community-resources/" target="_blank">OpenVPN Community Resources</a></li>
+
+</ul>

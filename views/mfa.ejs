@@ -1,0 +1,153 @@
+<style>
+
+label{
+	font-size: 15px;
+	color: #b76e79;
+}
+h1 {
+	text-align: center;
+}
+.container {
+	margin: 0 auto;
+	background-color: white;
+	box-shadow: 0 0px 2px rgba(0,0,0,0.5);
+    border-radius: 10px 10px;
+	width: 50%;
+	padding: 35px;
+}
+.Hide {
+  	display:none;
+}
+#target {
+	display: none;
+}
+.tab {
+	background-color: white;
+	box-shadow: 0 0px 2px rgba(0,0,0,0.5);
+	border-radius: 10px 10px;
+	padding: 40px;
+}
+button {
+	background-color: #2c5f85;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+button:hover {
+	background-color: #234d6b;
+}
+</style>
+
+<h1>Multi-factor Authentication (MFA)</h1>
+
+
+
+<% if(!user.totp_status){ %>
+
+	<div style="margin: 0 auto; width: 60%;">
+		<% include ./partials/messages %>
+		</div><br>
+
+	<div class="container">
+
+		<img src="/images/mfa.png" alt="MFA image" style="max-width: 400px;">
+		<p>Image Source: National Institute of Standards and Technology</p>
+
+	<p style="padding-top: 20px;">Add more than 2 security layers for your account in an age where passwords are not enough to secure your logins. The future is about to go passwordless, get ready for the future.</p>
+
+	<p>MFA are free add-on for your AP Technologies account that provides an additional level of security. The authenticators generates a code that you need to enter every time that you log on to your account. The code changes every 30 seconds, can be used only once, and the regeneration timeframe makes it harder to guess.</p>
+
+
+<p>Step by step instructions will be given for the add-on once enrolled. Enter your password to proceed:</p>
+	
+<form action="/auth/totp-enroll" method="POST">
+	<input type="hidden" id="totp" name="totp" value="Yes">
+	<input type="password" id="totp" name="password" placeholder="Current password" style="border-radius: 5px;"><br>
+    <input type="submit" value="Enroll now" style="border-radius: 5px; width: 100%;">
+  </form>
+
+</div>
+
+ <% } %>
+    
+
+ <% if(user.totp_status === 'Yes'){ %>
+
+	<div>
+		<% include ./partials/messages %>
+		</div><br>
+
+<p>Status: <b class="gradient-text">ACTIVE</b></p>
+
+<p class="gradient-text">Enrolled on <%= user.totp_enrolment_date.getDate()%> <%= user.totp_enrolment_date.toLocaleString('default', { month: 'long' })%> <%= user.totp_enrolment_date.getFullYear()%> at <%-user.totp_enrolment_date.toLocaleTimeString()%>. </p> <br>
+
+
+		<div class="tab">
+			<label for="handle1">Set up instructions</label>
+			<div>
+				<p><b>Suggested apps to use to generate your TOTP:</b></p>
+				<p>Google Authenticator: <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_US&gl=US">Goole Play Store</a>, <a href="https://apps.apple.com/us/app/google-authenticator/id388497605">Apple Store</a></p>
+				<p>Microsoft Authenticator: <a href="https://play.google.com/store/apps/details?id=com.azure.authenticator&hl=en_US&gl=US">Google Play Store</a>, <a href="https://apps.apple.com/us/app/microsoft-authenticator/id983156458">Apple Store.</a></p>
+				<p><b>Set-up instructions:</b></p>
+					<p><b>1. </b>Download one of the mobile apps mentioned.<br>
+					<b>2. </b>Scan your QR Code in the app.<br>
+					<b>3. </b>The app will now start generating new TOTP's every 30 seconds. Enter the current code once asked when you signin.</p>
+			</div>
+		</div>
+
+
+		<br>
+
+		<div class="tab">
+			<label for="handle2">Your QR Code</label>
+			</p>
+			<button class="Show">Show code</button>
+			<button class="Hide">Hide code</button>
+			<div id="target">
+				<p><i class="fas fa-exclamation-circle"></i> Confidential (Never share this QR code with anyone)</p>
+					<p><b>Your secret code:</b> <%-user.totp_secret%></p>
+					<img src="<%-data%>" id="QRcode">
+			</div>
+		</div>
+
+
+		<br>
+
+
+	<div class="tab">
+			<label for="handle3">Revoke Multi-factor Authentication</label>
+			<div>
+				<p>By clicking on 'Revoke MFA', you request and agree to be removed from being asked for TOTP every time you sign in.</p>
+				<form action="/auth/mfa/revoke" method="POST">
+				<input type="hidden" id="revoke" name="revoke" value="revoke">
+				<input type="password" id="password" name="password" placeholder="Current password" style="width: 50%; border-radius: 5px;">
+				<button type="submit">Revove MFA</button>
+				</form>
+			</div>
+	</div>
+  
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script>
+		$('.Show').click(function() {
+		$('#target').show(0);
+		$('.Show').hide(0);
+		$('.Hide').show(0);
+	});
+	$('.Hide').click(function() {
+		$('#target').hide(0);
+		$('.Show').show(0);
+		$('.Hide').hide(0);
+	});
+	</script>
+
+
+<% } %>
+
+
+  

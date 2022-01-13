@@ -1,0 +1,187 @@
+
+<style>
+  .box {
+  box-shadow: 0 0px 2px rgba(0,0,0,0.5);
+  border-radius: 10px 10px;
+  padding: 50px;
+  }
+  .progress-bar {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
+}
+
+.progress-step {
+  text-align: center;
+  position: relative;
+}
+.progress-step:before, .progress-step:after {
+  background-color: #c0a359;
+  content: "";
+  height: 2px;
+  position: absolute;
+  z-index: -1;
+  top: 20px;
+}
+.progress-step:after {
+  left: 50%;
+  width: 100%;
+}
+.progress-step:last-of-type.is-active:after {
+  background-color: #c0a359;
+}
+@media screen and (min-width: 640px) {
+  .progress-step:first-of-type:before {
+    right: 50%;
+    width: 50%;
+  }
+}
+@media screen and (max-width: 640px) {
+  .progress-step:first-of-type:before, .progress-step:last-of-type:after {
+    background-color: white !important;
+  }
+}
+.progress-step:last-of-type:after {
+  left: 50%;
+  width: 50%;
+}
+.progress-step .step-count {
+  background-color: #c0a359;
+  height: 30px;
+  width: 30px;
+  margin: 0 auto;
+  border-radius: 50%;
+  color: white;
+  line-height: 30px;
+  z-index: 100;
+  border: 7px solid white;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.progress-step.is-active .step-description {
+  font-weight: 500;
+}
+.progress-step.is-active:after {
+  background-color: #dad6ce;
+}
+.progress-step.is-active ~ .progress-step .step-count {
+  background-color: #dad6ce;
+}
+.progress-step.is-active ~ .progress-step:after {
+  background-color: #dad6ce;
+}
+
+.step-description {
+  font-size: 0.8rem;
+}
+</style>
+
+<h1 style="text-align: center;">Track submission</h1>
+
+<div class="box">
+
+<p>Enter the reference number sent to the email address upon your contact form submission.</p>
+
+<% include ./partials/messages %><br>
+
+<form method="POST" action="/contact/track-submission">
+    <input type="text" id="referencenumber" name="referencenumber" placeholder=" 32 digit reference number" style="width:50%; border-radius: 10px; float: left;">
+    <input type="submit" value="Submit" style="border-radius: 10px; height: 42.5px; margin-left: 20px; width: 150px;" id="myButton1" onclick="change()">
+    </form>
+
+
+
+<% if(typeof result === 'undefined'){ %>
+
+    
+    
+<% } else{ %>
+
+  <br>
+
+<div style="border: 1px #ddd solid; padding: 20px; border-radius: 10px">
+
+    <p style="color: #955251"><b>RESULTS:</b></p>
+
+
+    <div class="progress-bar">
+        <% if(result[0].notes === 'Received'){ %>
+            <div class="progress-step is-active">
+                <div class="step-count">1</div>
+                <div class="step-description">Received</div>
+              </div>
+          <% } else{ %>  
+            <div class="progress-step">
+                <div class="step-count">1</div>
+                <div class="step-description">Received</div>
+              </div>
+         <% } %>
+        
+
+         <% if(result[0].notes === 'Processing'){ %>
+            <div class="progress-step is-active">
+                <div class="step-count">2</div>
+                <div class="step-description">Processing</div>
+              </div>
+          <% } else{ %>  
+            <div class="progress-step">
+                <div class="step-count">2</div>
+                <div class="step-description">Processing</div>
+              </div>
+         <% } %>
+
+
+         <% if(result[0].notes === 'Responded'){ %>
+            <div class="progress-step is-active">
+                <div class="step-count">3</div>
+                <div class="step-description">Responded</div>
+              </div>
+          <% } else{ %>  
+            <div class="progress-step">
+                <div class="step-count">3</div>
+                <div class="step-description">Responded</div>
+              </div>
+         <% } %>
+              
+    </div>
+
+
+    <div>
+        <p>Reference number: <%-result[0].submission_id%></p>
+        <p>Received date: <%= result[0].date.getDate()%> <%= result[0].date.toLocaleString('default', { month: 'long' })%> <%= result[0].date.getFullYear()%>, <%-result[0].date.toLocaleTimeString()%></p>
+        <p>Current status: 
+            <% if(result[0].notes === 'Received'){ %>
+                Your submission was received on our system at <%= result[0].date.getDate()%> <%= result[0].date.toLocaleString('default', { month: 'long' })%> <%= result[0].date.getFullYear()%>, <%-result[0].date.toLocaleTimeString()%>.
+            <% }%>
+            <% if(result[0].notes === 'Processing'){ %>
+                Your submission started processing on <%= result[0].notesDate%>. You should soon hear back from us on your email.
+            <% }%>
+            <% if(result[0].notes === 'Responded'){ %>
+                We've responded to your submission at <%=result[0].email%> on <%= result[0].notesDate%>.
+            <% }%>
+            
+        </p>
+        <p>Last updated by <%-result[0].last_updated_by%></p>
+    </div>
+
+
+</div>
+
+    
+    
+<% } %>
+
+
+</div>
+
+
+<script>
+  function change()
+{
+    var elem = document.getElementById("myButton1");
+    if (elem.value=="Submit") {
+      elem.value = "Processing...";
+        elem.style.backgroundColor = "#687a82";
+    }
+}
+</script>

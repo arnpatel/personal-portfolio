@@ -1,0 +1,43 @@
+<style>
+
+</style>
+
+<h1 style="text-align: center;">Email Verification (required)</h1>
+
+<div style="margin: 0 auto; width: 70%;">
+<% include ./partials/messages %>
+</div>
+
+<br>
+
+
+<div style="border: 1px solid #001f3f; width: 63%; padding: 20px; margin: 0 auto;">
+
+        <img src="/images/welcome-march.gif" style="max-width: 500px;">
+
+        <p>
+            <b>Account email</b>: <%-user.email%>
+        </p>
+        <p>
+          Please confirm your email address to activate your account. An email was already sent to your registered email address.
+        </p>
+          
+
+        <form action="/auth/verify-email" method="POST">
+          <input type="submit" style="width:80%; border-radius: 25px; padding: 12px;" onclick="change()" type="button" value="Resend email" id="myButton1"></input>
+        </form>
+
+
+</div>
+
+
+  <script>
+    function change()
+  {
+      var elem = document.getElementById("myButton1");
+      if (elem.value=="Resend email") {
+        elem.value = "Processing...";
+          elem.style.backgroundColor = "#687a82";
+      }
+  }
+  </script>

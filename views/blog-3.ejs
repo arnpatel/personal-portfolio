@@ -1,0 +1,34 @@
+<h1>Calculating subnet masks for network management.</h1>
+
+<p style="color:rgb(151, 148, 148);">Posted on March 10, 2021 by <a href="/about">arth</a>.</p>
+
+<p>
+    Subnetting is important to resourcefully forward requested data packets to the recipient. It certainly helps reduce network load and more efficiently route traffic to internally connected devices. The amount of traffic between each subnet gets distributed, and thus speed is increased, easing the network congestion. Recently, I had developed interest in learning networking, which I knew was certainly going to broaden my scope in understanding concepts from Computer Engineering studies. After learning the concept, I asked myself how would I calculate subnet for my home network with a pen and paper, simply eliminating the use of computer?
+</p>
+
+<p>
+    Well, It was effortless and straightforward. Let me explain how:
+</p>
+
+<h2>Calculation</h2>
+
+<p>
+    Step 1: I took on Amazon's 26 bit IPv4 CIDR to perform calculation: 178.236.10.128/26
+</p>
+
+<p>
+   Step 2: I converted each of the four (8 bit) blocks and converted it to binary.
+</p>
+
+<p>
+    Step 3: I calculated the subnet to have a network address of 178.236.10.128, and broadcast address of 178.236.10.191 for /26 subnet. The CIDR had capability to give me 64 hosts to divert traffic to local users. This method is not the fastest, but certainly logical to understand only by calculation the range.
+</p>
+
+<p>Attached SVG below shows my calculation:</p>
+
+
+<img src="/images/subnetting.svg" style="max-width: 100%;">
+
+<br><br>
+
+<a href="/images/subnetting.svg" target="_blank">Expand the image</a>

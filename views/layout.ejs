@@ -1,0 +1,59 @@
+<!--Arth's Personal Website-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Arth Patel (arth@arthnpatel.com)">
+    <meta name="copyright" content="Copyright &copy; 2020 Arth Patel">
+    <meta name="keywords" content="personal website, engineering">
+    <meta name="description" content="Hi, I'm Arth and this is my personal website.">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:400" />
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+    <title><%- title ? title + " | " : "" %>Arth Patel</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/layout-default.css">
+    <link rel="stylesheet" href="/css/content.css">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <!--Fonts Awesome-->
+    <script src="https://kit.fontawesome.com/e9cf5400c0.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="main">
+      <header id="header">
+        <h1><a href="/">Arth Patel</a></h1>
+        <h2>Student at Drexel</h2>
+      </header>
+
+      <nav id="menu">
+        <%- menuItem(req, "", "Home") %>
+        <%- menuItem(req, "about", "About Me") %>
+        <%- menuItem(req, "blog", "Blog") %>
+        <%- menuItem(req, "contact", "Contact Me") %>
+        <% if (user) { %>
+          <%- menuItem(req, "user/dashboard", "Dashboard") %>
+          <%- menuItem(req, "auth/logout", "Log out") %>
+  
+        <% } else { %>
+          <%- menuItem(req, "auth/login", "Log In") %>
+        <% } %>
+        
+      </nav>
+
+      <div id="content">
+        <%- body %>
+      </div>
+
+      <footer id="footer">
+        <a href="/legal">Legal</a>
+        &bull;
+        Copyright &copy; 2021 Arth Patel</a>
+        &bull;
+        <a href="https://github.com/arnpatel">Github</a>
+        &bull;
+        <a href="https://twitter.com/arnpatel1" title="Follow Arth Patel on Twitter">Twitter</a>
+      </footer>
+    </div>
+
+    
+  </body>
+</html>

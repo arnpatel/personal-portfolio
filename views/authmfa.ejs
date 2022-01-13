@@ -1,0 +1,90 @@
+<head>
+    <meta http-equiv="refresh" content="60" />
+</head>
+
+<style>
+    input {
+    padding: 17px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-bottom: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      color: #2C3E50;
+      font-size: 13px;
+    }
+  </style>
+  
+  
+  <div style="text-align: center; border: 1px solid  white; margin: 0 auto; width: 43%; padding: 20px; border-radius: 10px; box-shadow: 0 0 5px  #575957;">
+  
+  <p><b>Multi-factor authentication</b></p>
+
+  <div style="text-align: left;">
+
+            
+
+                <p>Your account is secured using multi-factor authentication (MFA). To finish signing in, turn on or view your MFA device and type the authentication code below.</p>
+
+                <p><b>Email address:</b> <%=email%></p>
+
+            </div>
+  
+  
+        <div style="text-align: center;">
+
+            <form action="/auth/mfa?continue=<%=redirectUrl%>" method="POST">
+                <input type="hidden" name="email" value="<%=totpUser.body.email%>">
+                <input type="hidden" name="password" value="<%=password%>">
+                <p id="time" style="font-size: 70%;color:#c4395c; margin-bottom: -5px; text-align: left;">01:00</p>
+                <input type="text" name="totp" id="totp" autofocus="autofocus" onfocus="this.select()"><br>
+                <input type="submit" style="width:100%; border-radius: 25px; padding: 12px;" onclick="change()" type="button" value="Sign in" id="myButton1"></input>
+            </form>
+        
+             <br>
+  
+        <p>Locked out of your account?<br>
+          <input onclick="location.href = '/contact';" type="submit" value="Contact Us" style="width:100%; border-radius: 25px; background-color: white; color: black; border: 1.7px solid black; padding: 10px;"/>
+  
+    </div>
+  </div>
+  
+  
+  
+  <script>
+    function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    var fiveMinutes = 60 * 1,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+};
+</script>
+
+
+  
+  <script>
+    function change()
+  {
+      var elem = document.getElementById("myButton1");
+      if (elem.value=="Sign in") {
+        elem.value = "Processing...";
+          elem.style.backgroundColor = "#687a82";
+      }
+  }
+  </script>

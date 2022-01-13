@@ -1,0 +1,131 @@
+<style>
+.center {
+  margin: 0 auto;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 4px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+}
+
+.pagination a.active {
+  background-color: #e5ecf2;
+  color: white;
+  border: 1px solid #e5ecf2;
+}
+
+.disabled {
+    cursor: not-allowed;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+table {
+    		    font-family: arial, sans-serif;
+    		    border-collapse: collapse;
+    		    width: 100%;
+    		}
+    		td, th {
+    		    border: 1px solid #dddddd;
+                border-radius: 5px;
+    		    text-align: left;
+    		    padding: 15px;
+                font-size: 90%;
+    		}
+
+.error1 {
+    border: 1px solid #AAAAAA;
+    border-radius: 10px;
+    padding: 30px;
+}
+</style>
+
+
+    <h1 style="text-align: center;">Login History</h1>
+
+
+        <p><b>Account email:</b> <%-user.email%></p>
+        <p>Note: The history data is retained for a maximum of 3 days and purged periodically.</p>
+
+
+
+    
+    <% if(login.length === 0){ %>
+  
+        <div class="error1">
+            <h3>No login history found!</h3>
+            <p>Either of this could have occured:</p>
+            <p>1. Your history was purged past 3 days limit and thus not available anymore.</p>
+            <p>2. You are accessing a page with no data on it. Try accessing <a href="/user/login-history/1">page 1</a>.</p>
+        </div>
+        
+              
+       <% }else{ %>
+
+        <br>
+
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>IP Address</th>
+            </tr>
+
+            <% login.forEach(function(login) { %>
+
+            <tr>
+              <td><%= login.date.getDate()%> <%= login.date.toLocaleString('default', { month: 'long' })%> <%= login.date.getFullYear()%></td>
+              <td><%-login.date.toLocaleTimeString()%></td>
+              <td><%=login.ipAddress%></td>
+            </tr>
+
+            <%})%>
+
+        </table>  
+
+        <p style="text-align: center;"><b><%= (perPage * current) - perPage %> -<%= (perPage * (current - 1) + count1) %> of <%=count%> results</b></p>
+
+          <br>
+
+
+            <% if (pages > 0) { %>
+                <div class="center">
+                <div class="pagination">
+                    <% if (current == 1) { %>
+                        <a class="disabled">First</a>
+                    <% } else { %>
+                        <a href="/user/login-history/1">First</a>
+                    <% } %>
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                        <a class="disabled">...</a>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if (i == current) { %>
+                            <a class="active"><%= i %></a>
+                        <% } else { %>
+                            <a href="/user/login-history/<%= i %>"><%= i %></a>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <a class="disabled">...</a>
+                        <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                        <a class="disabled">Last</a>
+                    <% } else { %>
+                        <a href="/user/login-history/<%= pages %>">Last</a>
+                    <% } %>
+                </div>
+                    </div>
+            <% } %>
+
+        <%}%>
+    </div>

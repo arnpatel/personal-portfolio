@@ -1,0 +1,82 @@
+<style>
+.alert {
+  padding: 15px;
+  background-color: rgb(153, 0, 0);
+  color: white;
+  border-radius: 5px;
+}
+
+.success {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #6f9e78;
+  color: white;
+  border-radius: 5px;
+}
+
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: #d9d052;
+}
+</style>
+
+
+
+  <% if(success_msg != ''){ %>
+    <div style="font-size: 13px;" class="success">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <p><%= success_msg %></p>
+    </div>
+  <% } %>
+  
+  
+
+
+<% if(typeof errors != 'undefined'){ %>
+    <div style="font-size: 13px;" class="alert">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+      <p style="color: #cfcfcf;">Please correct the following <%= Object.keys(errors).length%> error(s):</p>
+      <% errors.forEach(function(error) { %>
+        <p><%= error.msg %></p>
+      <% }); %>
+    </div>
+<%}%>
+
+  
+
+  
+  <% if(error_msg != ''){ %>
+    <div style=" font-size: 13px;" class="alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <p style="color: #cfcfcf;">Please correct the following <%= Object.keys(error_msg).length%> error(s):</p>
+        <p><%= error_msg %></p>
+    </div>
+  <% } %>
+
+
+  <% if(error != ''){ %>
+    <div style=" font-size: 13px;" class="alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <p style="color: #cfcfcf;">Please correct the following <%= Object.keys(error).length%> error(s):</p>
+        <p><%= error %></p>
+    </div>
+  <% } %>
+
+
+
+
+
+
+

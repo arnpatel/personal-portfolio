@@ -1,0 +1,479 @@
+<h1 style="text-align: center;">My Account</h1>
+
+<style>
+/*General css*/
+input {
+  height: 40px;
+  padding: 17px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	color: #2C3E50;
+	font-size: 13px;
+  }
+input[type=submit] {
+  width: 18%;
+  background-color:#2c5f85;
+  color: white;
+  padding: 9px 10px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+}
+#panel, #panel1, #panel3 {
+  display: none;
+}
+button{
+  height: 40px;
+  width: 70px;
+  background-color: white;
+  color: black;
+  border: 1.5px solid #555555;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* 70/30 responsive flexbox */
+.main {
+  margin-bottom: 10px;
+  background-color: white;
+  box-shadow: 0 0px 2px rgba(0,0,0,0.5);
+  border-radius: 10px 10px;
+}
+.side {
+  background: #ededed;
+  height: 350px;
+}
+.main,
+.side {
+  padding: 40px;
+  border-radius: 10px;
+  width: 25%;
+}
+
+@media ( min-width : 600px ){
+	.flexbox {
+    display: -webkit-flex;
+    display: flex;
+	}
+  .main {
+    margin: 0 10px 0 0;
+    width: 75%;
+  }
+}
+
+/*File picture*/
+.profile-pic {
+    border-radius: 50%;
+    height: 110px;
+    width: 110px;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    vertical-align: middle;
+    text-align: center;
+    color: transparent;
+    transition: all .3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.profile-pic:hover {
+    background-color: rgba(0,0,0,.5);
+    z-index: 10000;
+    color: #fff;
+    transition: all .3s ease;
+    text-decoration: none;
+}
+
+.profile-pic span {
+    display: inline-block;
+    padding-top: 0em;
+    padding-bottom: 4.5em;
+    font-size: 80%;
+}
+
+form input[type="file"] {
+          display: none;
+          cursor: pointer;
+ }
+
+
+/*Password reset*/
+
+.hide{opacity:0; display: none; height: 0; padding: 0;}
+  .centered {
+    font-size: 90%;
+    color: rgb(189, 17, 17);
+  }
+  .success1 {
+    color: green;
+  }
+  
+  .para{
+    line-height: 5px;
+  }
+
+  .heading {
+    font-size: 15px;
+	color: #955251;
+  }
+
+</style>
+
+<% include ./partials/messages %>
+
+
+<br>
+ 
+
+<% if(user.strategy === "local"){ %>
+ 
+
+
+<div class="flexbox">
+  <div class="main">
+  <p class="heading"><b>Your personal information</b></p>
+
+          <div id="panel4">
+            <label for="name" style="font-size: 80%;">Full name</label><br>
+            <input type="text" placeholder="<%= user.name%>" style="width:70%;" name="name" disabled> <button onclick="myFunction3()" id="btn3" type="button"> Edit</button><br>
+          </div>
+
+
+            <div id="panel3">  <form action="/user/dashboard/update/general/<%=user._id%>?_method=PUT" method="POST">
+              <label for="name" style="font-size: 80%;">Full name (required)</label><br>
+              <input type="text" style="width:70%;" name="name"> <button onclick="myFunction4()" id="btn4" type="button"> Cancel</button> <br>
+              <div id="loadingGif1" style="display:none"><img src="/images/load.gif" style="display:block; width: 26px; padding-top: 12px; padding-left: 33px;"><br></div>
+              <input type="submit" value="Save" onclick="showDiv1()" id="submit-button1">
+              </form>
+              <br>
+            </div>
+
+
+
+
+            <label for="email" style="font-size: 80%;">Email address</label><br>
+            <div style="font-size:80%;color:#458f5a;"><input type="email" value="<%= user.email%>" style="width:70%;" disabled>  <i class="far fa-check-circle"></i> Verified.
+            </div>
+  
+  
+            <p class="heading"><b>Your password</b></p>
+            <div id="panel2">
+              <label for="pass" style="font-size: 80%;">Password</label><br>
+              <input type="password" value="redacted" style="width:70%;" name="pass" disabled>
+              <button onclick="myFunction1()" id="btn1" type="button"> Edit</button>
+            </div>
+  
+
+              <div id="panel1">
+                <form action="/user/dashboard/update/password/<%=user._id%>?_method=PUT" method="POST">
+                    <label for="oldpassword" style="font-size: 80%;">Current password (required)</label><br>
+                    <input type="password" name="oldpassword"  style="width:70%;">
+                    <button onclick="myFunction2()" id="btn2" type="button"> Cancel</button><br>
+                    <div class="centered" style="width:400px">
+                      <p style="color: #234d6b">Realtime password guidelines:</p>
+                        <p class="lowercase-char para">At least one lowercase character</p>
+                        <p class="uppercase-char para">At least one uppercase character</p>
+                        <p class="number-char para">At least one number</p>
+                        <p class="special-char para">At least one special character</p>
+                        <p class="8-char para">At least 8 characters</p>
+                        <p class="success1 hide para">The password works, go take over the world.</p>
+                      </div><br>
+                    <label for="password" style="font-size: 80%;" >New password (required)</label><br>
+                    <input type="password" name="password" style="width:70%;"  id="password" class=""><br>
+                    <div id="loadingGif2" style="display:none"><img src="/images/load.gif" style="display:block; width: 26px; padding-top: 12px; padding-left: 33px"><br></div>
+                    <input type="submit" value="Save" onclick="showDiv2()" id="submit-button2">
+                </form><br>
+              </div>
+
+    
+
+
+              <p class="heading"><b>Your Multi-factor authentication:</b></p>
+              <p>Status: 
+                <% if(!user.totp_status){ %>
+                  Not enrolled
+                  <% } %>
+                  <% if(user.totp_status){ %>
+                    Enrolled
+                    <% } %>
+              </p>
+              <a href="/user/mfa">MFA settings </a> <br><br>
+
+              <p class="gradient-text">Website member since <%= user.date.toLocaleString('default', { month: 'long' })%>, <%-user.date.getFullYear()%></p>
+  </div>
+
+  <div class="side">
+    
+          <p style="text-align: center;" class="heading"><b>Your Avatar:</b></p>
+
+
+          
+
+          <% if(!user.profile_picture){ %>
+
+            <form action="/user/profile-upload" method="POST" enctype="multipart/form-data" id="form1">
+              <label for="fileToUpload">
+                <div class="profile-pic" style="background-image: url('https://arthnpatel.com/usercontent/default.png')">
+                  <span class="glyphicon glyphicon-camera"></span>
+                  <span>Change Image</span>
+                </div>
+              </label>
+              <input class="file-upload-input" type='file' onchange="form1.submit();" accept="image/*" name="photo" id="fileToUpload"/>
+            </form>
+
+          <% } else{ %>
+
+
+            <form action="/user/profile-upload" method="POST" enctype="multipart/form-data" id="form1">
+              <label for="fileToUpload">
+                <div class="profile-pic" style="background-image: url('https://arthnpatel.com/usercontent/<%-user.profile_picture%>')">
+                  <span class="glyphicon glyphicon-camera"></span>
+                  <span>Change Image</span>
+                </div>
+              </label>
+              <input class="file-upload-input" type='file' onchange="form1.submit();" accept="image/*" name="photo" id="fileToUpload"/>
+            </form>
+
+            <% } %>  
+
+
+            
+              <br><p style="text-align: center;" class="heading"><b>Last login:</b></p>
+              <p style="font-size: 80%;">Date: <%-user.last_login.split(',')[0]%><br>
+              Time: <%-user.last_login.split(',')[1]%><br>
+              IP: <%-user.last_login_ip%></p>
+
+                <a href="/user/login-history">Log in history</a>
+  </div>
+</div>
+
+
+
+
+
+<% } else{ %> 
+
+
+  <div class="flexbox">
+
+
+        <div class="main">
+
+
+
+          <p class="heading"><b>Your personal information:</b></p>
+  
+              <div id="panel4">
+                <label for="name" style="font-size: 80%;">Full name</label><br>
+                <input type="text" placeholder="<%= user.name%>" style="width:70%;" name="name" disabled> <button onclick="myFunction3()" id="btn3" type="button"> Edit</button><br>
+              </div>
+      
+      
+              <div id="panel3">  <form action="/user/dashboard/update/general/<%=user._id%>?_method=PUT" method="POST">
+                <label for="name" style="font-size: 80%;">Full name (required)</label><br>
+                <input type="text" style="width:70%;" name="name"> <button onclick="myFunction4()" id="btn4" type="button"> Cancel</button> <br>
+                <div id="loadingGif1" style="display:none"><img src="/images/load.gif" style="display:block; width: 26px; padding-top: 12px; padding-left: 33px;"><br></div>
+                <input type="submit" value="Save" onclick="showDiv1()" id="submit-button1">
+                </form><br>
+              </div>
+      
+
+              <% if(user.provider === 'Github OAuth'){ %>
+                <label for="githuusername" style="font-size: 80%;">GitHub username</label><br>
+                <div style="font-size:80%;color:#458f5a;"><input type="email" value="<%= user.githubUsername%>" style="width:70%;" disabled>  <a href="https://github.com/<%=user.githubUsername%>" style="text-decoration: none;" target="_blank">GitHub profile</a></div> 
+              <% } %>
+      
+         
+
+      
+      
+              <label for="email" style="font-size: 80%;">Email address</label><br>
+              <div style="font-size:80%;color:#458f5a;"><input type="email" value="<%= user.email%>" style="width:70%;" disabled>  <i class="far fa-check-circle"></i> Verified.</div> 
+
+
+              <label for="email" style="font-size: 80%;">Authentication type:</label><br>
+              <input type="text" style="width:70%;" value="<%=user.provider%>" disabled> <br><br>
+
+              <p class="gradient-text">Website member since <%= user.date.toLocaleString('default', { month: 'long' })%>, <%-user.date.getFullYear()%></p>
+
+
+        </div>
+        <div class="side">
+  
+          <% if(user.provider === 'Google OAuth'){ %>
+            <p style="text-align: center;" class="heading"><b>Your Avatar:</b></p>
+                <% if(!user.profile_picture){ %>
+                  <form action="/user/profile-upload" method="POST" enctype="multipart/form-data" id="form1">
+                    <label for="fileToUpload">
+                      <div class="profile-pic" style="background-image: url('<%=user.oauth_profile_picture%>')">
+                        <span class="glyphicon glyphicon-camera"></span>
+                        <span>Change Image</span>
+                      </div>
+                    </label>
+                    <input class="file-upload-input" type='file' onchange="form1.submit();" accept="image/*" name="photo" id="fileToUpload"/>
+                  </form>
+                <% } else{ %>
+                  <form action="/user/profile-upload" method="POST" enctype="multipart/form-data" id="form1">
+                    <label for="fileToUpload">
+                      <div class="profile-pic" style="background-image: url('https://arthnpatel.com/usercontent/<%-user.profile_picture%>')">
+                        <span class="glyphicon glyphicon-camera"></span>
+                        <span>Change Image</span>
+                      </div>
+                    </label>
+                    <input class="file-upload-input" type='file' onchange="form1.submit();" accept="image/*" name="photo" id="fileToUpload"/>
+                  </form>
+                <% } %>
+        <% } else{ %>
+            <p style="text-align: center;" class="heading"><b>Your Avatar:</b></p>
+                <% if(!user.profile_picture){ %>
+                  <form action="/user/profile-upload" method="POST" enctype="multipart/form-data" id="form1">
+                    <label for="fileToUpload">
+                      <div class="profile-pic" style="background-image: url('<%=user.oauth_profile_picture%>')">
+                        <span class="glyphicon glyphicon-camera"></span>
+                        <span>Change Image</span>
+                      </div>
+                    </label>
+                    <input class="file-upload-input" type='file' onchange="form1.submit();" accept="image/*" name="photo" id="fileToUpload"/>
+                  </form>
+                <% } else{ %>
+                  <form action="/user/profile-upload" method="POST" enctype="multipart/form-data" id="form1">
+                    <label for="fileToUpload">
+                      <div class="profile-pic" style="background-image: url('https://arthnpatel.com/usercontent/<%-user.profile_picture%>')">
+                        <span class="glyphicon glyphicon-camera"></span>
+                        <span>Change Image</span>
+                      </div>
+                    </label>
+                    <input class="file-upload-input" type='file' onchange="form1.submit();" accept="image/*" name="photo" id="fileToUpload"/>
+                  </form>
+                <% } %>
+
+        <% } %>
+
+
+
+        <br><p style="text-align: center;" class="heading"><b>Last login:</b></p>
+              <p style="font-size: 80%;">Date: <%-user.last_login.split(',')[0]%><br>
+              Time: <%-user.last_login.split(',')[1]%><br>
+              IP: <%-user.last_login_ip%></p>
+
+              <a href="/user/login-history">Log in history</a>
+
+
+    </div>
+
+   </div>
+
+<% } %>
+
+
+
+<script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+
+
+<script>
+	function myFunction() {
+  var x = document.getElementById("panel");
+  var y = document.getElementById("btn");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+    y.textContent = 'Edit';
+    
+  } else {
+    x.style.display = "block";
+    y.textContent = 'Cancel'
+  }
+}
+function myFunction1() {
+  var x = document.getElementById("panel1");
+  var y = document.getElementById("btn1");
+  var z = document.getElementById("panel2");
+  var a = document.getElementById("btn2");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+    y.textContent = 'Edit';
+    z.style.display = 'block';
+    
+  } else {
+    x.style.display = "block";
+    a.textContent = 'Cancel';
+    z.style.display = 'none';
+  }
+}
+function myFunction2() {
+  var x = document.getElementById("panel1");
+  var y = document.getElementById("btn1");
+  var z = document.getElementById("panel2");
+  var a = document.getElementById("btn2");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+    y.textContent = 'Edit';
+    z.style.display = 'block';
+    
+  } else {
+    x.style.display = "block";
+    a.textContent = 'Cancel';
+    z.style.display = 'none';
+  }
+}
+
+
+function myFunction3() {
+  var x = document.getElementById("panel3");
+  var y = document.getElementById("btn3");
+  var z = document.getElementById("panel4");
+  var a = document.getElementById("btn4");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+    y.textContent = 'Edit';
+    z.style.display = 'block';
+    
+  } else {
+    x.style.display = "block";
+    a.textContent = 'Cancel';
+    z.style.display = 'none';
+  }
+}
+function myFunction4() {
+  var x = document.getElementById("panel3");
+  var y = document.getElementById("btn3");
+  var z = document.getElementById("panel4");
+  var a = document.getElementById("btn4");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+    y.textContent = 'Edit';
+    z.style.display = 'block';
+    
+  } else {
+    x.style.display = "block";
+    a.textContent = 'Cancel';
+    z.style.display = 'none';
+  }
+}
+</script>
+
+
+<script>
+  function showDiv() {
+  document.getElementById('submit-button').style.display = "none";
+  document.getElementById('loadingGif').style.display = "block";
+  }
+  function showDiv1() {
+  document.getElementById('submit-button1').style.display = "none";
+  document.getElementById('loadingGif1').style.display = "block";
+  }
+  function showDiv2() {
+  document.getElementById('submit-button2').style.display = "none";
+  document.getElementById('loadingGif2').style.display = "block";
+   
+}
+</script>
+
+
+<script src='https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js'></script><script src="/js/password-validation.js"></script>

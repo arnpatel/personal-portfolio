@@ -1,0 +1,44 @@
+<style>
+    #container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px 15px 0 0;
+}
+
+#left {
+  width: calc(62% - 15px);
+}
+
+#right {
+  width: calc(38% - 15px);
+}
+</style>
+
+
+<h1>500 Internal Server Error</h1>
+
+
+<h3>Shoot!</h3>
+
+
+<div id="container">
+
+
+    <div id="left">
+
+        <p>An internal server error has occured and our engineering team has been notified of the situation. We will soon start working on implementing a fix around the root cause.</p>
+
+        <p>If you need immediate help or have concerns, please submit a <a href="/contact">form submission</a>.</p>
+
+        <p><b>Error information</b><br>
+            code: 500 <br>
+            requested url: https://<%=req.headers.host%><%=route%> <br>
+            server: APATEL1 (Washington, VA)
+        </p>
+    </div>
+
+    <div id="right">
+        <img src="/images/error.svg" style="max-width: 250px; padding-left: 50px;">
+    </div>
+
+</div>

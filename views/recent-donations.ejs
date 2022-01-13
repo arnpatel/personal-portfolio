@@ -1,0 +1,72 @@
+
+<h1 style="text-align: center;">Recent Donations</h1>
+
+<div>
+    
+
+    <% if(result.length === 0){ %>
+
+      <br>
+         <div style="background-color: white; box-shadow: 0 0px 2px rgba(0,0,0,0.5); border-radius: 10px 10px;"><br>
+          <img src="https://arthnpatel.com/images/pending.svg" style="max-width: 210px; margin: auto; display: block;"><br>
+          <p style="text-align: center;">You have no recent donations at the moment. Check back again later.</p><br>
+         </div>
+      
+            
+     <% }else{ %>
+
+        <br><p>Welcome, you can view here all your recent donations and get the receipt.</p><br>
+
+
+        <ul class="faq-list">
+          <% result.forEach(function(result) { %>
+            
+          <li class="J_list">
+             <div class="list-header"><p>
+              Date: <%= result.date.getDate()%> <%= result.date.toLocaleString('default', { month: 'long' })%> <%= result.date.getFullYear()%> at <%-result.date.toLocaleTimeString()%><br>
+              Name: <%=result.payer_first_name%> <%=result.payer_last_name%><br>
+              Status: <%=result.payment_status%>
+          </p></div>
+             <div class="list-content">
+                <div class="list-content-inner">
+                  <hr>
+                  <p>
+                  <b>Donation receipt:</b><br><br>
+    
+                    <i>Transaction date:</i> <%= result.date.getDate()%> <%= result.date.toLocaleString('default', { month: 'long' })%> <%= result.date.getFullYear()%> at <%-result.date.toLocaleTimeString()%><br>
+                    <i>Full Name:</i> <%=result.payer_first_name%> <%=result.payer_last_name%><br>
+                    <i>Reference ID:</i> <%=result._id%><br>
+                    <i>Email:</i> <%= result.payer_email%><br>
+                    <i>Payment method:</i> <%=result.payment_method%><br>
+                    <i>Payment address:</i><br>
+                    <%=result.payer_address_fullName%><br>
+                    <%=result.payer_shipping_line1%><br>
+                    <%=result.payer_shipping_city%>, <%=result.payer_shipping_state%> <%=result.payer_shipping_postal_code%><br>
+                    <%=result.payer_shipping_country_code%><br>
+                    <i>Donation amount:</i> <b><%=result.payer_payment_amount%> <%=result.payer_payment_currency%></b><br>
+                    <i>Payment status:</i> <%=result.payment_status%><br>
+                    </p>
+                    <p><a href="/contact">Request a refund</a></p>
+                </div>
+             </div>
+          </li>
+          <% }) %>
+        </ul>     
+
+
+      <% } %>
+</div>
+
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script>
+       $('.list-header').on('click', function() {
+        var $J_li = $(this).parents('.J_list')
+        $J_li.hasClass('open') ? $J_li.removeClass('open') : $J_li.addClass('open');
+     })
+     </script>
+     
+     
+     
+         

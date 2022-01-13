@@ -1,0 +1,35 @@
+<h1>Caller ID Test</h1>
+
+<p>Test your callerID and see how your name and phone number appears when you call people.</p>
+
+<p>Instructions: Enter the 10 digit phone number without area code, hyphens or parenthesis.</p>
+
+<% include ./partials/messages %>
+
+<form method="POST" action="/user/apps/callerid">
+<div style="font-size: 80%;"><input type="text" placeholder="1234567890" id="number" name="number" maxlength="10" style="width:35%;">   US numbers only.</div>
+<input type="submit" value="Lookup">
+</form>
+
+
+<% if (typeof details === 'undefined') { %>
+    <p></p>
+    <%} else { %>
+        <div>
+            <p><b>Query Results:</b></p>
+        <p>CNAME: <%-details["data"]["caller_name"]["caller_name"]%> <br>
+
+        Phone Number: <%-details["data"]["phone_number"]%> <br>
+
+        Carrier: <%-details["data"]["carrier"]["name"]%> <br>
+
+        Type: <%-details["data"]["carrier"]["type"]%> <br>
+
+        Country Code: <%-details["data"]["country_code"]%> <br>
+
+        City: <%-details["data"]["portability"]["city"]%> <br>
+
+        State: <%-details["data"]["portability"]["state"]%> </p>
+
+        </div>
+    <% } %>
